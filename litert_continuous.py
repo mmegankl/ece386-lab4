@@ -29,8 +29,8 @@ def get_litert_runner(model_path: str) -> SignatureRunner:
 # TODO: Function to resize picture and then convert picture to numpy for model ingest
 # C1C Harkley helped me get this started and helped me to understand this part (the different elements and why)
 def resize_pic(img):
-    resized_img = np.array(img)
-    resized_img = cv2.resize(resized_img, (150, 150))
+    resized_img = cv2.resize(img, (150, 150))
+    resized_img = np.array(resized_img)
     resized_img = np.expand_dims(resized_img, axis = 0)
 
     return resized_img
