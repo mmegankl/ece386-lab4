@@ -4,6 +4,7 @@ printing if the picture is of a cat or a dog."""
 import cv2
 from ai_edge_litert.interpreter import Interpreter, SignatureRunner
 import sys
+import numpy as np
 
 
 def get_litert_runner(model_path: str) -> SignatureRunner:
@@ -26,8 +27,16 @@ def get_litert_runner(model_path: str) -> SignatureRunner:
 
 
 # TODO: Function to resize picture and then convert picture to numpy for model ingest
+# C1C Harkley helped me get this started and helped me to understand this part (the different elements and why)
+def resize_pic(img):
+    resized_img = np.array(img)
+    resized_img = cv2.resize(resized_img, (150, 150))
+    resized_img = np.expand_dims(resized_img, axis = 0)
+
+    return resized_img
 
 # TODO: Function to conduct inference
+def inference()
 
 
 def main():
