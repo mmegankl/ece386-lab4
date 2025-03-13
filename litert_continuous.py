@@ -66,15 +66,16 @@ def main():
     # Init webcam
     webcam = cv2.VideoCapture(0)  # 0 is default camera index
 
-    # # TODO: Loop to take pictures and invoke inference. Should loop until Ctrl+C keyboard interrupt.
-    # while True:
-    #     #start
-    #     try:
-    #         #take pictures
-
-    # # Release the camera
-    # webcam.release()
-    # print("Program complete")
+    # TODO: Loop to take pictures and invoke inference. Should loop until Ctrl+C keyboard interrupt.
+    try:
+        while True:
+            pass
+    except KeyboardInterrupt:
+        print("exiting")
+    finally:
+        # Release the camera
+        webcam.release()
+        print("Program complete")
 
 
 # Executes when script is called by name
