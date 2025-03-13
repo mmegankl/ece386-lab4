@@ -28,24 +28,25 @@ def get_litert_runner(model_path: str) -> SignatureRunner:
 
 # TODO: Function to resize picture and then convert picture to numpy for model ingest
 # C1C Harkley helped me get this started and helped me to understand this part (the different elements and why)
-def resize_pic(img):
-    resized_img = cv2.resize(img, (150, 150))
-    resized_img = np.array(resized_img)
-    resized_img = np.expand_dims(resized_img, axis = 0)
-
+def resize_pic(img) -> np.ndarray:
+    resized_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    resized_img = cv2.resize(resized_img, (150, 150))  # appropriate size
+    resized_img = np.array(resized_img, dtype=np.uint8)  # convert to array
+    resized_img = np.expand_dims(resized_img, axis=0)  # matrix
     return resized_img
 
+
 # TODO: Function to conduct inference
-def inference(img)
+def inference(img: np.ndarray, runner) -> tuple[str, float]:
     input = resize_pic(img)
     # something about prediction, outputting 0 for cat or 1 for dog
-    #prediction = 
-    if (prediction == 0):
-        class_type = 'Cat'
+    prediction = runner(catdog_input=img)[0][0]
+    if prediction <= 0.5:
+        class_type = "Cat"
     else:
-        class_type = 'Dog'
+        class_type = "Dog"
 
-    return class_type
+    return class_type, prediction
 
 
 def main():
@@ -65,13 +66,15 @@ def main():
     # Init webcam
     webcam = cv2.VideoCapture(0)  # 0 is default camera index
 
-    # TODO: Loop to take pictures and invoke inference. Should loop until Ctrl+C keyboard interrupt.
-    while True:
-        #start
+    # # TODO: Loop to take pictures and invoke inference. Should loop until Ctrl+C keyboard interrupt.
+    # while True:
+    #     #start
+    #     try:
+    #         #take pictures
 
-    # Release the camera
-    webcam.release()
-    print("Program complete")
+    # # Release the camera
+    # webcam.release()
+    # print("Program complete")
 
 
 # Executes when script is called by name
