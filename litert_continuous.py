@@ -36,7 +36,14 @@ def resize_pic(img):
     return resized_img
 
 # TODO: Function to conduct inference
-def inference()
+def inference(img)
+    input = resize_pic(img)
+    # something about prediction, outputting 0 for cat or 1 for dog
+    #prediction = 
+    if (prediction == 0):
+        class_type = 'Cat'
+    else:
+        class_type = 'Dog'
 
 
 def main():
@@ -57,6 +64,8 @@ def main():
     webcam = cv2.VideoCapture(0)  # 0 is default camera index
 
     # TODO: Loop to take pictures and invoke inference. Should loop until Ctrl+C keyboard interrupt.
+    while True:
+        #start
 
     # Release the camera
     webcam.release()
