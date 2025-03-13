@@ -45,6 +45,8 @@ def inference(img)
     else:
         class_type = 'Dog'
 
+    return class_type
+
 
 def main():
 
