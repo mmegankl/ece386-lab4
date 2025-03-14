@@ -69,7 +69,9 @@ def main():
     # TODO: Loop to take pictures and invoke inference. Should loop until Ctrl+C keyboard interrupt.
     try:
         while True:
-            pass
+            ret, frame = webcam.read()
+            class_type, confidence = inference(frame, runner)
+            print(f"Prediction: {class_type} with {confidence} certainty")
     except KeyboardInterrupt:
         print("exiting")
     finally:
