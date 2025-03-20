@@ -5,8 +5,6 @@ import cv2
 from ai_edge_litert.interpreter import Interpreter, SignatureRunner
 import sys
 import numpy as np
-from ai_edge_litert.interpreter import Interpreter
-
 
 def get_litert_runner(model_path: str) -> SignatureRunner:
     """Opens a .tflite model from path and returns a LiteRT SignatureRunner that can be called for inference
@@ -39,7 +37,6 @@ def resize_pic(img) -> np.ndarray:
 
 # TODO: Function to conduct inference
 def inference(img: np.ndarray, runner) -> tuple[str, float]:
-    input = resize_pic(img)
     # something about prediction, outputting 0 for cat or 1 for dog
     prediction = runner(catdog_input=img)[0][0]
     if prediction <= 0.5:
@@ -68,47 +65,63 @@ def main():
     webcam = cv2.VideoCapture(0)  # 0 is default camera index
 
     # TODO: Loop to take pictures and invoke inference. Should loop until Ctrl+C keyboard interrupt.
-    # try:
-    #     while True:
-    #         ret, frame = webcam.read()
-    #         class_type, confidence = inference(frame, runner)
-    #         cv2.imshow("Captured Image", frame)
-    #         print(f"Prediction: {class_type} with {confidence} certainty")
-    # except KeyboardInterrupt:
-    #     print("exiting")
-    # finally:
-    #     # Release the camera
-    #     webcam.release()
-    #     print("Program complete")
-    # Capture a frame
-    ret, frame = webcam.read()
-
-    # Release the camera
-    webcam.release()
-
-    # Only process of ret is True
-    if ret:
-        # Convert BGR (OpenCV default) to RGB for TFLite
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-        # Convert to a NumPy array
-        # img_array = np.array(frame_rgb, dtype=np.uint8)
-        new_frame = resize_pic(frame)
-        class_type, confidence = inference(frame, runner)
-        print("Image shape:", new_frame.shape)  # Ensure shape matches model input
-
-        # Preview the image
-        cv2.imshow("Captured Image", new_frame)
-        print(f"Prediction: {class_type} with {confidence} certainty")
-        print("Press any key to exit.")
+    try:
         while True:
-            # Window stays open until key press
-            if cv2.waitKey(0):
-                cv2.destroyAllWindows()
+            ret, frame = webcam.read()
+            if not ret: # benchmark to ensure the image was captured
+                print("No frame captured")
                 break
 
-    else:
-        print("Failed to capture image.")
+            new_frame = resize_pic(frame) # wrangling image
+            class_type, confidence = inference(new_frame, runner)
+
+            cv2.imshow("Captured Image", frame)
+            print(f"Prediction: {class_type} with {confidence:.2f} certainty")
+
+            # ChatGPT suggested that I can help ensure window responsiveness with this
+            # Initially, problem was that the program would exit without key press
+            if cv2.waitKey(1) & 0xFF == ord('q'):  # Press 'q' to exit
+                print("User exited by pressing 'q'")
+                break
+
+    except KeyboardInterrupt:
+        print("exiting")
+    finally:
+        # Release the camera
+        webcam.release()
+        cv2.destroyAllWindows()
+        print("Program complete")
+
+    # TODO: Loop to take pictures and invoke inference. Should loop until Ctrl+C keyboard interrupt.
+    # # Capture a frame
+    # ret, frame = webcam.read()
+
+    # # Release the camera
+    # webcam.release()
+
+    # # Only process of ret is True
+    # if ret:
+    #     # Convert BGR (OpenCV default) to RGB for TFLite
+    #     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    #     # Convert to a NumPy array
+    #     # img_array = np.array(frame_rgb, dtype=np.uint8)
+    #     new_frame = resize_pic(frame)
+    #     class_type, confidence = inference(frame, runner)
+    #     print("Image shape:", new_frame.shape)  # Ensure shape matches model input
+
+    #     # Preview the image
+    #     cv2.imshow("Captured Image", new_frame)
+    #     print(f"Prediction: {class_type} with {confidence} certainty")
+    #     print("Press any key to exit.")
+    #     while True:
+    #         # Window stays open until key press
+    #         if cv2.waitKey(0):
+    #             cv2.destroyAllWindows()
+    #             break
+
+    # else:
+    #     print("Failed to capture image.")
 
 
 # Executes when script is called by name
