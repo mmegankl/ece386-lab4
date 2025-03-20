@@ -21,8 +21,10 @@ LiteRT is overall better than Keras, it was 8 times faster overall and 21 times 
 In conclusion, the LiteRT model is the better choice due to its faster run times and efficient memory usage.   
 
 ## Documentation
+C2C Leong got Ei from Capt Yarbrough for help with the continuous file. We used GeeksForGeeks/StackOverflow to help with some code. Ai was used in a learning manner, and not to get the answer.
 
 ### People
+Capt Yarbrough
 
 ### LLMs
 https://box.boodle.ai/c/b5aecd2d-5eb1-4482-b7ca-ada9e0887f13 
