@@ -15,23 +15,10 @@ After cloning,
 Verify your signatures are what you expect, then get to work!
 
 ## Discussion Questions
-Compare
-
-    Running your .tflite model with 10 images per run vs 40 images per run
-
-    Running your .tflite model with LiteRT vs your .keras model with Keras  
-
-Discuss the results in your README.md. Make sure you emphasize
-
-    Relative model sizes
-
-    Relative performance for more vs. fewer images per run, and why
-
-    Pipeline stalls waiting for memory
-
-    L2 invalidations (meaning something in the L2 cache had to be overwritten)
-
-    LLC loads and misses
+The .tflite model is significantly smaller than the .keras model, allowing for faster loading and execution. This makes the liteRT more efficient for edge computing.
+Regarding performance, running 10 images per batch results in smoother runtimes with better performance. Running 40 images per batch increases throughput, hindering performance because it has to process more at once, putting more strain on the memory and causing delays.
+LiteRT is overall better than Keras, it was 8 times faster overall and 21 times faster at user processing than Keras. LiteRT runs more efficiently without having to reload memory as often. Keras is slower because of the additional CPU power and memory it needs to run.   
+In conclusion, the LiteRT model is the better choice due to its faster run times and efficient memory usage.   
 ## Documentation
 
 ### People
