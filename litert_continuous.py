@@ -89,7 +89,7 @@ def main():
 
             # Prepare input for the model
             model_input = resize_pic(frame)
-            print("Image shape:", model_input.shape)
+            #print("Image shape:", model_input.shape)
 
             # Run inference
             class_type, confidence = inference(frame, runner)

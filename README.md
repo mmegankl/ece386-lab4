@@ -16,9 +16,10 @@ Verify your signatures are what you expect, then get to work!
 
 ## Discussion Questions
 The .tflite model is significantly smaller than the .keras model, allowing for faster loading and execution. This makes the liteRT more efficient for edge computing.
-Regarding performance, running 10 images per batch results in smoother runtimes with better performance. Running 40 images per batch increases throughput, hindering performance because it has to process more at once, putting more strain on the memory and causing delays.
-LiteRT is overall better than Keras, it was 8 times faster overall and 21 times faster at user processing than Keras. LiteRT runs more efficiently without having to reload memory as often. Keras is slower because of the additional CPU power and memory it needs to run.   
+Regarding performance, running 10 images per batch results in smoother runtimes with better performance. Running 40 images per batch increases throughput, hindering performance because it has to process more at once, putting more strain on the memory and causing delays. Further, pipeline stalls should be more prevalent in the Keras model because it requires more memory. The L2 cache stores frequently-accessed data, so when L2 invalidation occurs (data that is still relevant is overwritten), the data needs to be reloaded, causing pipeline delays. LLCs are loaded when the system finds the other level caches to be preoccupied, and further, a miss happends when the data is not in the LLC either, so it has to fetch the data from the RAM, which is less efficient. Keras is more prone to these issues.
+LiteRT is overall better than Keras, it was 8 times faster overall and 21 times faster at user processing than Keras (reference Capt Yarbrough's performance table). LiteRT runs more efficiently without having to reload memory as often. Keras is slower because of the additional CPU power and memory it needs to run.   
 In conclusion, the LiteRT model is the better choice due to its faster run times and efficient memory usage.   
+
 ## Documentation
 
 ### People
